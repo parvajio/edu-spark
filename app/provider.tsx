@@ -12,11 +12,11 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
 
 
     const createUser = async ()=>{
-        if (!user) return; // Don't make the request if user is not available
+        if (!user) return; 
         
         const res = await axios.post("/api/user", {
             name: user.fullName,
-            email: user.emailAddresses[0].emailAddress, // Get the first email address
+            email: user.primaryEmailAddress?.emailAddress // Get the first email address
         })
         console.log(res.data)
     }

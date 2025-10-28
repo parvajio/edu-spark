@@ -14,9 +14,9 @@ export async function POST(req: Request){
         const result = await db.insert(usersTable).values({
             name: name,
             email: email
-        })
+        }).returning()
 
-        return NextResponse.json(result)
+        return NextResponse.json(result[0])
     }
 
     return NextResponse.json(user[0])
