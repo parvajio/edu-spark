@@ -3,8 +3,8 @@ import { usersTable } from "@/config/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
-export async function POST(req: {name: string, email: string}){
-    const {name, email } = await req;
+export async function POST(req: Request){
+    const {name, email } = await req.json();
     
     //first chack if user exists in db
     const user = await db.select().from(usersTable).where(eq(usersTable.email, email))
