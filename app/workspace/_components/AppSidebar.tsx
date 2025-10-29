@@ -1,3 +1,5 @@
+"use client"
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -18,12 +20,17 @@ import {
   Wallet,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 
 export function AppSidebar() {
+  const path = usePathname()
+
   const items = [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/workspace",
       icon: LayoutDashboard,
     },
     {
@@ -59,17 +66,19 @@ export function AppSidebar() {
         <Image alt="logo" src={"/logo.svg"} width={150} height={120}></Image>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup />
+        <SidebarGroup>
+          <Button>Create New Course</Button>
+        </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
+                    <Link href={item.url} className={` ${path.includes(item.url) && "text-primary bg-gray-200"}`}>
+                      <item.icon className="h-7 w-7"/>
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
