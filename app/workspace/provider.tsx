@@ -10,7 +10,10 @@ const WorkspaceProvider = ({ children }: { children: React.ReactNode }) => {
 
       <div className="w-full">
         <DashboardHeader></DashboardHeader>
+        <div className="p-10">
+
         {children}
+        </div>
       </div>
     </SidebarProvider>
   );
