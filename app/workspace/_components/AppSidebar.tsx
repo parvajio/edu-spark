@@ -22,6 +22,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AddNewCourse } from "./AddNewCourse";
 
 
 export function AppSidebar() {
@@ -67,7 +68,9 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <Button>Create New Course</Button>
+          <AddNewCourse>
+            <Button>Create New Course</Button>
+          </AddNewCourse>
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupContent>
@@ -76,7 +79,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link href={item.url} className={` ${path.includes(item.url) && "text-primary bg-gray-200"}`}>
-                      <item.icon className="h-7 w-7"/>
+                      <item.icon className="h-7 w-7" />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
