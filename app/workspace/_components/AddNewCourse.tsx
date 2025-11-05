@@ -14,8 +14,23 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
+import { useState } from "react"
+
+interface FormData{
+  courseName: string,
+  courseDescription: string
+}
 
 export function AddNewCourse({ children }: { children: React.ReactNode }) {
+  const [formData, setFormData] = useState();
+
+  // const onHandleInputFormData = (field: string, value: string) => {
+  //   setFormData(prev =>({
+  //     // ...prev,
+  //     [field]:value
+  //   }))
+  // }
+
   return (
     <Dialog>
       <form>
@@ -31,7 +46,7 @@ export function AddNewCourse({ children }: { children: React.ReactNode }) {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="grid gap-4"> 
+          <div className="grid gap-4">
 
             <div className="grid gap-3">
               <Label htmlFor="courseName">Course Name</Label>
