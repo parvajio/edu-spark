@@ -11,31 +11,74 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
+import { Textarea } from "@/components/ui/textarea"
 
-export function AddNewCourse({children}: {children: React.ReactNode}) {
+export function AddNewCourse({ children }: { children: React.ReactNode }) {
   return (
     <Dialog>
       <form>
         <DialogTrigger asChild>
-            {children}
+          {children}
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[700px]">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle>Course Details</DialogTitle>
             <DialogDescription>
               Make changes to your profile here. Click save when you&apos;re
               done.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4">
+
+          <div className="grid gap-4"> 
+
             <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+              <Label htmlFor="courseName">Course Name</Label>
+              <Input id="courseName" name="courseName" placeholder="Enter Course Name" />
             </div>
+
             <div className="grid gap-3">
-              <Label htmlFor="username-1">Username</Label>
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
+              <Label htmlFor="courseDescription">Course Description</Label>
+              <Textarea id="courseDescription" name="courseDescription" placeholder="Enter course Description"></Textarea>
             </div>
+
+            <div className="grid gap-3">
+              <Label htmlFor="nOfChapter">Number fo Chapters</Label>
+              <Input id="nOfChapter" name="nOfChapter" placeholder="Enter number of chapter" />
+            </div>
+
+            <div className="flex gap-3">
+              <Label>Include Video</Label>
+              <Switch></Switch>
+            </div>
+
+            <div className="grid gap-3">
+              <Label>Difficulty Level</Label>
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select dificulty" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="apple">Beginner</SelectItem>
+                    <SelectItem value="banana">Moderate</SelectItem>
+                    <SelectItem value="blueberry">Advanced</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="grid gap-3">
+              <Label htmlFor="catgory">Category</Label>
+              <Input id="catgory" name="catgory" placeholder="e.g., Technology, Business" />
+            </div>
+
+            <div className="grid gap-3">
+              <Label htmlFor="target">Target Audience</Label>
+              <Textarea id="target" name="target" placeholder="Who is this course for?"></Textarea>
+            </div>
+
           </div>
           <DialogFooter>
             <DialogClose asChild>
