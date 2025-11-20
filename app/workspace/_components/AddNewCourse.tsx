@@ -18,18 +18,32 @@ import { useState } from "react"
 
 interface FormData{
   courseName: string,
-  courseDescription: string
+  courseDescription:string,
+    nOfChapter: number,
+    lavel: string,
+    catgory: string,
+    target: string,
+    includeVideo: boolean
 }
 
 export function AddNewCourse({ children }: { children: React.ReactNode }) {
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState({
+    courseName: "",
+    courseDescription:"",
+    nOfChapter: 1,
+    lavel: '',
+    catgory: "",
+    target: "",
+    includeVideo: false
+  });
 
-  // const onHandleInputFormData = (field: string, value: string) => {
-  //   setFormData(prev =>({
-  //     // ...prev,
-  //     [field]:value
-  //   }))
-  // }
+  const onHandleInputFormData = <K extends keyof FormData>(field: K, value: FormData[K]) => {
+    setFormData(prev =>({
+      ...prev,
+      [field]:value
+    }))
+    console.log(formData)
+  }
 
   return (
     <Dialog>
@@ -50,27 +64,27 @@ export function AddNewCourse({ children }: { children: React.ReactNode }) {
 
             <div className="grid gap-3">
               <Label htmlFor="courseName">Course Name</Label>
-              <Input id="courseName" name="courseName" placeholder="Enter Course Name" />
+              <Input id="courseName" name="courseName" placeholder="Enter Course Name" onChange={(e)=> onHandleInputFormData("courseName", e?.target.value)}/>
             </div>
 
             <div className="grid gap-3">
               <Label htmlFor="courseDescription">Course Description</Label>
-              <Textarea id="courseDescription" name="courseDescription" placeholder="Enter course Description"></Textarea>
+              <Textarea id="courseDescription" name="courseDescription" placeholder="Enter course Description" onChange={e => onHandleInputFormData("courseDescription", e?.target.value)}></Textarea>
             </div>
 
             <div className="grid gap-3">
               <Label htmlFor="nOfChapter">Number fo Chapters</Label>
-              <Input id="nOfChapter" name="nOfChapter" placeholder="Enter number of chapter" />
+              <Input id="nOfChapter" name="nOfChapter" placeholder="Enter number of chapter" onChange={e => onHandleInputFormData("nOfChapter", Number(e?.target.value))}/>
             </div>
 
             <div className="flex gap-3">
               <Label>Include Video</Label>
-              <Switch></Switch>
+              <Switch onCheckedChange={()=> onHandleInputFormData('includeVideo', !formData?.includeVideo)}></Switch>
             </div>
 
             <div className="grid gap-3">
               <Label>Difficulty Level</Label>
-              <Select>
+              <Select onValueChange={(value) => onHandleInputFormData("lavel", value)}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Select dificulty" />
                 </SelectTrigger>
