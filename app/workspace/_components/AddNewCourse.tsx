@@ -45,6 +45,10 @@ export function AddNewCourse({ children }: { children: React.ReactNode }) {
     console.log(formData)
   }
 
+  const onSubmitFormData = () =>{
+    console.log(formData)
+  }
+
   return (
     <Dialog>
       <form>
@@ -113,7 +117,7 @@ export function AddNewCourse({ children }: { children: React.ReactNode }) {
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit" onSubmit={() => onSubmitFormData()}>Save changes</Button>
           </DialogFooter>
         </DialogContent>
       </form>
