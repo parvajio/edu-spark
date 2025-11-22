@@ -66,14 +66,16 @@ export function AddNewCourse({ children }: { children: React.ReactNode }) {
     try{
 
       setLoading(true);
+
       const res = await axios.post("/api/generateCourseLayout", {
         ...formData,
       });
   
       setLoading(false);
   
-      console.log(res.data);
+      console.log(res);
     }catch(e){
+      setLoading(false)
       console.log(e)
     }
   };
