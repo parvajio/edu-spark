@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button"
+"use client";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -8,53 +10,78 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
-import { useState } from "react"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import axios from "axios";
+import { LoaderIcon, RefreshCcw } from "lucide-react";
+import { useState } from "react";
 
-interface FormData{
-  courseName: string,
-  courseDescription:string,
-    nOfChapter: number,
-    lavel: string,
-    catgory: string,
-    target: string,
-    includeVideo: boolean
+interface FormData {
+  courseName: string;
+  courseDescription: string;
+  nOfChapter: number;
+  lavel: string;
+  catgory: string;
+  target: string;
+  includeVideo: boolean;
 }
 
 export function AddNewCourse({ children }: { children: React.ReactNode }) {
   const [formData, setFormData] = useState({
     courseName: "",
-    courseDescription:"",
+    courseDescription: "",
     nOfChapter: 1,
-    lavel: '',
+    lavel: "",
     catgory: "",
     target: "",
-    includeVideo: false
+    includeVideo: false,
   });
 
-  const onHandleInputFormData = <K extends keyof FormData>(field: K, value: FormData[K]) => {
-    setFormData(prev =>({
-      ...prev,
-      [field]:value
-    }))
-    console.log(formData)
-  }
+  const [loading, setLoading] = useState(false);
 
-  const onSubmitFormData = () =>{
-    console.log(formData)
-  }
+  const onHandleInputFormData = <K extends keyof FormData>(
+    field: K,
+    value: FormData[K]
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+    console.log(formData);
+  };
+
+  const onSubmitFormData = async () => {
+    try{
+
+      setLoading(true);
+      const res = await axios.post("/api/generateCourseLayout", {
+        ...formData,
+      });
+  
+      setLoading(false);
+  
+      console.log(res.data);
+    }catch(e){
+      console.log(e)
+    }
+  };
 
   return (
     <Dialog>
       <form>
-        <DialogTrigger asChild>
-          {children}
-        </DialogTrigger>
+        <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="sm:max-w-[700px]">
           <DialogHeader>
             <DialogTitle>Course Details</DialogTitle>
@@ -65,30 +92,56 @@ export function AddNewCourse({ children }: { children: React.ReactNode }) {
           </DialogHeader>
 
           <div className="grid gap-4">
-
             <div className="grid gap-3">
               <Label htmlFor="courseName">Course Name</Label>
-              <Input id="courseName" name="courseName" placeholder="Enter Course Name" onChange={(e)=> onHandleInputFormData("courseName", e?.target.value)}/>
+              <Input
+                id="courseName"
+                name="courseName"
+                placeholder="Enter Course Name"
+                onChange={(e) =>
+                  onHandleInputFormData("courseName", e?.target.value)
+                }
+              />
             </div>
 
             <div className="grid gap-3">
               <Label htmlFor="courseDescription">Course Description</Label>
-              <Textarea id="courseDescription" name="courseDescription" placeholder="Enter course Description" onChange={e => onHandleInputFormData("courseDescription", e?.target.value)}></Textarea>
+              <Textarea
+                id="courseDescription"
+                name="courseDescription"
+                placeholder="Enter course Description"
+                onChange={(e) =>
+                  onHandleInputFormData("courseDescription", e?.target.value)
+                }
+              ></Textarea>
             </div>
 
             <div className="grid gap-3">
               <Label htmlFor="nOfChapter">Number fo Chapters</Label>
-              <Input id="nOfChapter" name="nOfChapter" placeholder="Enter number of chapter" onChange={e => onHandleInputFormData("nOfChapter", Number(e?.target.value))}/>
+              <Input
+                id="nOfChapter"
+                name="nOfChapter"
+                placeholder="Enter number of chapter"
+                onChange={(e) =>
+                  onHandleInputFormData("nOfChapter", Number(e?.target.value))
+                }
+              />
             </div>
 
             <div className="flex gap-3">
               <Label>Include Video</Label>
-              <Switch onCheckedChange={()=> onHandleInputFormData('includeVideo', !formData?.includeVideo)}></Switch>
+              <Switch
+                onCheckedChange={() =>
+                  onHandleInputFormData("includeVideo", !formData?.includeVideo)
+                }
+              ></Switch>
             </div>
 
             <div className="grid gap-3">
               <Label>Difficulty Level</Label>
-              <Select onValueChange={(value) => onHandleInputFormData("lavel", value)}>
+              <Select
+                onValueChange={(value) => onHandleInputFormData("lavel", value)}
+              >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Select dificulty" />
                 </SelectTrigger>
@@ -104,23 +157,36 @@ export function AddNewCourse({ children }: { children: React.ReactNode }) {
 
             <div className="grid gap-3">
               <Label htmlFor="catgory">Category</Label>
-              <Input id="catgory" name="catgory" placeholder="e.g., Technology, Business" />
+              <Input
+                id="catgory"
+                name="catgory"
+                placeholder="e.g., Technology, Business"
+              />
             </div>
 
             <div className="grid gap-3">
               <Label htmlFor="target">Target Audience</Label>
-              <Textarea id="target" name="target" placeholder="Who is this course for?"></Textarea>
+              <Textarea
+                id="target"
+                name="target"
+                placeholder="Who is this course for?"
+              ></Textarea>
             </div>
-
           </div>
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit" onSubmit={() => onSubmitFormData()}>Save changes</Button>
+            <Button type="submit" onClick={onSubmitFormData} disabled={loading}>
+              {loading ? (
+                <LoaderIcon className="animate-spin"></LoaderIcon>
+              ) : (
+                "save changes"
+              )}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </form>
     </Dialog>
-  )
+  );
 }
